@@ -1,3 +1,11 @@
+FROM node:18-alpine AS builder
+
+WORKDIR /app
+
+# Copy everything including built dist
+COPY . .
+
+# Production image
 FROM node:18-alpine
 
 WORKDIR /app
@@ -5,15 +13,13 @@ WORKDIR /app
 # Copy package files
 COPY package*.json ./
 
-# Install dependencies
-RUN npm ci
+# Install production dependencies only
+RUN npm install --only=production
 
-# Copy source code
-COPY . .
-
-# Build TypeScript
-RUN npm run build
+# Copy compiled code from builder
+COPY --from=builder /app/dist ./dist
 
 EXPOSE 3001
 
-CMD ["npm", "start"]
+# Start compiled server
+CMD ["node", "dist/index.js"]

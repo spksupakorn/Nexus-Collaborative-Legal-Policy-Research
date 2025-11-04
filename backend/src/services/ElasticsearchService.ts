@@ -24,7 +24,7 @@ export class ElasticsearchService implements IElasticsearchService {
     if (!indexExists) {
       await this.client.indices.create({
         index: this.indexName,
-        body: ES_INDEX_CONFIG,
+        body: ES_INDEX_CONFIG as any,
       });
       console.log(`✅ Elasticsearch index '${this.indexName}' created`);
     }

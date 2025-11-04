@@ -54,7 +54,7 @@ When viewing a document, the system provides:
 
 #### Infrastructure
 - **Containerization**: Docker & Docker Compose
-- **Database**: PostgreSQL 15
+- **Database**: PostgreSQL 16
 - **Search**: Elasticsearch 8.11 with ICU analysis plugin
 - **Analytics**: Kibana (optional, for ES visualization)
 

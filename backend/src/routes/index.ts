@@ -1,11 +1,11 @@
 import { FastifyInstance } from 'fastify';
-import { container } from './config/inversify.config';
-import { TYPES } from './config/types';
-import { AuthController } from './controllers/AuthController';
-import { SearchController } from './controllers/SearchController';
-import { DocumentController } from './controllers/DocumentController';
-import { authMiddleware, requireRole } from './middleware/auth.middleware';
-import { RoleType } from './entities/Role';
+import { container } from '../config/inversify.config';
+import { TYPES } from '../config/types';
+import { AuthController } from '../controllers/AuthController';
+import { SearchController } from '../controllers/SearchController';
+import { DocumentController } from '../controllers/DocumentController';
+import { authMiddleware, requireRole } from '../middleware/auth.middleware';
+import { RoleType } from '../entities/Role';
 
 export async function registerRoutes(server: FastifyInstance): Promise<void> {
   const authController = container.get<AuthController>(TYPES.AuthController);

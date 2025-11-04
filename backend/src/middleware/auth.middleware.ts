@@ -1,13 +1,15 @@
 import { FastifyRequest, FastifyReply } from 'fastify';
 import { RoleType } from '../entities/Role';
 
-export interface AuthenticatedRequest extends FastifyRequest {
-  user?: {
-    id: string;
-    email: string;
-    roles: RoleType[];
-  };
+export interface UserPayload {
+  id: string;
+  email: string;
+  roles: RoleType[];
 }
+
+export type AuthenticatedRequest = FastifyRequest & {
+  user?: UserPayload;
+};
 
 export async function authMiddleware(
   request: FastifyRequest,
@@ -23,7 +25,7 @@ export async function authMiddleware(
 }
 
 export function requireRole(...allowedRoles: RoleType[]) {
-  return async (request: AuthenticatedRequest, reply: FastifyReply): Promise<void> => {
+  return async (request: FastifyRequest, reply: FastifyReply): Promise<void> => {
     try {
       await request.jwtVerify();
       

@@ -89,7 +89,7 @@ services:
       - /app/node_modules
     networks:
       - nexus-network
-    command: npm run dev
+    command: npm start
 
   # Frontend Next.js
   web:

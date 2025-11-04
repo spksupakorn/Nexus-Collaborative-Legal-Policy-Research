@@ -123,15 +123,15 @@ export class SearchService implements ISearchService {
     }));
 
     const facets = {
-      documentTypes: response.aggregations?.document_types.buckets.map((b: any) => ({
+      documentTypes: (response.aggregations?.document_types as any)?.buckets?.map((b: any) => ({
         key: b.key,
         count: b.doc_count,
       })) || [],
-      jurisdictions: response.aggregations?.jurisdictions.buckets.map((b: any) => ({
+      jurisdictions: (response.aggregations?.jurisdictions as any)?.buckets?.map((b: any) => ({
         key: b.key,
         count: b.doc_count,
       })) || [],
-      tags: response.aggregations?.tags.buckets.map((b: any) => ({
+      tags: (response.aggregations?.tags as any)?.buckets?.map((b: any) => ({
         key: b.key,
         count: b.doc_count,
       })) || [],
@@ -223,7 +223,7 @@ export class SearchService implements ISearchService {
       },
     });
 
-    return response.aggregations?.trends.buckets.map((bucket: any) => ({
+    return (response.aggregations?.trends as any)?.buckets?.map((bucket: any) => ({
       date: bucket.key_as_string,
       count: bucket.doc_count,
     })) || [];
