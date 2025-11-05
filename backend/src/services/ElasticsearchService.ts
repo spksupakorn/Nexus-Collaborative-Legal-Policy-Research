@@ -80,12 +80,19 @@ export class ElasticsearchService implements IElasticsearchService {
   }
 
   async deleteDocument(documentId: string): Promise<void> {
-    await this.client.delete({
-      index: this.indexName,
-      id: documentId,
-    });
+    try {
+      await this.client.delete({
+        index: this.indexName,
+        id: documentId,
+      });
 
-    await this.client.indices.refresh({ index: this.indexName });
+      await this.client.indices.refresh({ index: this.indexName });
+    } catch (error: any) {
+      // Ignore 404 errors - document already doesn't exist
+      if (error.meta?.statusCode !== 404) {
+        throw error;
+      }
+    }
   }
 
   async bulkIndex(documents: Document[]): Promise<void> {

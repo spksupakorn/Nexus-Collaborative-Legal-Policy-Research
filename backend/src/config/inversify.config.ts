@@ -16,11 +16,13 @@ import { IAnnotationService } from '../interfaces/IAnnotationService';
 import { AnnotationService } from '../services/AnnotationService';
 import { IElasticsearchService } from '../interfaces/IElasticsearchService';
 import { ElasticsearchService } from '../services/ElasticsearchService';
+import { IDashboardService, DashboardService } from '../services/DashboardService';
 
 // Controllers
 import { AuthController } from '../controllers/AuthController';
 import { DocumentController } from '../controllers/DocumentController';
 import { SearchController } from '../controllers/SearchController';
+import { DashboardController } from '../controllers/DashboardController';
 
 const container = new Container();
 
@@ -32,10 +34,12 @@ container.bind<ISearchService>(TYPES.ISearchService).to(SearchService);
 container.bind<ILinkService>(TYPES.ILinkService).to(LinkService);
 container.bind<IAnnotationService>(TYPES.IAnnotationService).to(AnnotationService);
 container.bind<IElasticsearchService>(TYPES.IElasticsearchService).to(ElasticsearchService);
+container.bind<IDashboardService>('IDashboardService').to(DashboardService);
 
 // Bind controllers
 container.bind<AuthController>(TYPES.AuthController).to(AuthController);
 container.bind<DocumentController>(TYPES.DocumentController).to(DocumentController);
 container.bind<SearchController>(TYPES.SearchController).to(SearchController);
+container.bind<DashboardController>('DashboardController').to(DashboardController);
 
 export { container };

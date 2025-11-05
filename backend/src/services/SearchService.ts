@@ -97,13 +97,13 @@ export class SearchService implements ISearchService {
         },
         aggregations: {
           document_types: {
-            terms: { field: 'document_type', size: 20 },
+            terms: { field: 'document_type.keyword', size: 20 },
           },
           jurisdictions: {
-            terms: { field: 'jurisdiction', size: 50 },
+            terms: { field: 'jurisdiction.keyword', size: 50 },
           },
           tags: {
-            terms: { field: 'tags', size: 100 },
+            terms: { field: 'tags.keyword', size: 100 },
           },
         },
       },

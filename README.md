@@ -1,277 +1,270 @@
 # Nexus - Collaborative Legal & Policy Research Hub
 
-A powerful knowledge discovery platform for lawyers, paralegals, academics, and policymakers to search, analyze, and connect legal documents, case law, and government policies with full Thai language support.
+> A powerful knowledge discovery platform for legal professionals, academics, and policymakers to search, analyze, and connect legal documents with full Thai/English bilingual support.
 
-## 🚀 Key Features
+## ✨ What is Nexus?
 
-### Multi-Faceted Document Search
-- Search millions of documents (laws, regulations, case precedents, academic articles)
-- Full-text search with Thai language support using ICU tokenizer
-- Advanced filtering by document type, jurisdiction, date ranges, and tags
-- Faceted search with real-time aggregations
+Nexus is a comprehensive research platform designed specifically for the legal and policy research community. It combines advanced search capabilities, knowledge graph visualization, and collaborative tools to help you discover connections between laws, regulations, cases, and policies across Thai and English languages.
 
-### Cross-Language Support (Thai/English)
-- Bilingual search capabilities
-- Search in Thai (e.g., "พ.ร.บ. คุ้มครองข้อมูลส่วนบุคคล") and find related English analysis
-- Thai language analysis powered by Elasticsearch ICU plugin
+## 🎯 Key Features
 
-### Knowledge Graph & Citation Analysis
-When viewing a document, the system provides:
-- **Cited By**: Other cases or policies that reference this law
-- **References**: Documents this law itself is based on
-- **Related Academic Commentary**: Research papers analyzing this law
-- Interactive graph visualization of document relationships
+### 🔍 Smart Bilingual Search
+- **Full-text search** across laws, regulations, cases, and policies
+- **Thai language support** with ICU tokenizer for accurate Thai word segmentation
+- **Intelligent language detection** - automatically shows results in the language you searched
+- **Search in Thai** (พระราชบัญญัติ, กฎหมาย) or English (law, act, regulation)
+- **Advanced filters**: Document type, jurisdiction, publication date, tags
+- **Highlighted snippets** showing exactly where your keywords appear
 
-### Trend Analysis Dashboard
-- Visualize regulatory trends over time
-- Track volume of new regulations by topic per quarter/year
-- Time-series analysis with customizable date ranges
+### 🌐 Bilingual Content Management
+- Every document has both **Thai and English versions**
+- **Language toggle** on detail pages to switch between Thai/English
+- Consistent metadata across both languages
+- Smart display: English search shows English content, Thai search shows Thai content
 
-### User-Generated Connections
-- Researchers can manually link documents
-- Add private annotations to documents
-- Create custom relationships with descriptions
+### 📊 Analytics Dashboard
+Three powerful views for data analysis:
+1. **Overview**: Total documents, recent activity, quick statistics
+2. **Knowledge Graph**: Interactive visualization of document relationships and citations
+3. **Trend Analysis**: Charts showing document growth, search patterns, category distribution
 
-## 🏗️ Architecture
+### 🔐 Role-Based Access Control (RBAC)
+- **Guest**: Read-only access to search and view documents
+- **Researcher**: Can create annotations and document links
+- **Admin**: Full access to create, edit, and delete documents
 
-### Tech Stack
+### 💾 Persistent Sessions
+- **Stay logged in** across browser tabs and sessions
+- Automatic token refresh
+- Secure JWT authentication
 
-#### Backend
-- **Runtime**: Node.js 18+
-- **Framework**: Fastify (high-performance API framework)
-- **Language**: TypeScript
-- **Dependency Injection**: InversifyJS (clean architecture with IoC)
-- **ORM**: TypeORM with PostgreSQL
-- **Search Engine**: Elasticsearch 8.x with Thai ICU tokenizer
-- **Authentication**: JWT with role-based access control (RBAC)
+## 🏗️ Technology Stack
 
-#### Frontend
-- **Framework**: Next.js 14 (React 18)
-- **Language**: TypeScript
-- **State Management**: Zustand + React Query
-- **Styling**: Tailwind CSS
-- **Visualization**: React Flow (knowledge graph), Recharts (trends)
+### Backend (Node.js + TypeScript)
+| Component | Technology | Purpose |
+|-----------|-----------|---------|
+| API Framework | Fastify 4.25 | High-performance REST API |
+| Language | TypeScript 5.3 | Type-safe development |
+| DI Container | InversifyJS 6.0 | Clean architecture with IoC |
+| Database ORM | TypeORM 0.3.19 | PostgreSQL data management |
+| Search Engine | Elasticsearch 8.11 | Full-text search with Thai support |
+| Authentication | @fastify/jwt | JWT with RBAC |
 
-#### Infrastructure
-- **Containerization**: Docker & Docker Compose
-- **Database**: PostgreSQL 16
-- **Search**: Elasticsearch 8.11 with ICU analysis plugin
-- **Analytics**: Kibana (optional, for ES visualization)
+### Frontend (Next.js + React)
+| Component | Technology | Purpose |
+|-----------|-----------|---------|
+| Framework | Next.js 14 App Router | Modern React framework |
+| Language | TypeScript 5.3 | Type-safe UI development |
+| State Management | Zustand 4.4 | Simple, persistent state |
+| Data Fetching | React Query 5.17 | Server state management |
+| Styling | Tailwind CSS 3.4 | Utility-first CSS |
+| Visualizations | ReactFlow 11 + Recharts 2 | Interactive graphs and charts |
 
-### System Design
-
+### Infrastructure
 ```
-┌─────────────┐         ┌──────────────┐         ┌──────────────┐
-│   Next.js   │────────▶│   Fastify    │────────▶│  PostgreSQL  │
-│   Frontend  │         │   Backend    │         │  (Metadata)  │
-└─────────────┘         └──────────────┘         └──────────────┘
+┌─────────────────┐     ┌──────────────────┐     ┌─────────────────┐
+│  Next.js UI     │────▶│  Fastify API     │────▶│  PostgreSQL     │
+│  Port 3000      │     │  Port 3001       │     │  Port 5432      │
+│  (React 18)     │     │  (TypeScript)    │     │  (Documents DB) │
+└─────────────────┘     └──────────────────┘     └─────────────────┘
                                │
-                               │
-                               ▼
-                        ┌──────────────┐
-                        │Elasticsearch │
-                        │ (Full-text)  │
-                        └──────────────┘
+                               ├──────────────────┐
+                               ▼                  ▼
+                        ┌─────────────────┐ ┌─────────────────┐
+                        │ Elasticsearch   │ │ Kibana          │
+                        │ Port 9200       │ │ Port 5601       │
+                        │ (Thai Search)   │ │ (Analytics UI)  │
+                        └─────────────────┘ └─────────────────┘
 ```
 
-## 📦 Installation & Setup
+## � Quick Start (5 Minutes)
 
 ### Prerequisites
-- Node.js >= 18.0.0
-- Docker & Docker Compose
-- npm >= 9.0.0
+```bash
+✅ Node.js >= 18.0.0
+✅ Docker & Docker Compose
+✅ npm >= 9.0.0
+```
 
-### Quick Start
+### Installation Steps
 
-1. **Clone the repository**
+**1. Clone and Install**
 ```bash
 git clone https://github.com/spksupakorn/Nexus-Collaborative-Legal-Policy-Research.git
 cd Nexus-Collaborative-Legal-Policy-Research
-```
 
-2. **Copy environment variables**
-```bash
-cp .env.example .env
-# Edit .env with your configuration
-```
-
-3. **Install dependencies**
-```bash
-npm install
+# Install backend dependencies
 cd backend && npm install && cd ..
+
+# Install frontend dependencies  
 cd frontend && npm install && cd ..
 ```
 
-4. **Start with Docker Compose** (Recommended)
+**2. Start All Services** (Recommended - using Docker)
 ```bash
 docker-compose up -d
 ```
 
-This will start:
-- PostgreSQL on port 5432
-- Elasticsearch on port 9200
-- Kibana on port 5601
-- Backend API on port 3001
-- Frontend on port 3000
-
-5. **Access the application**
-- Frontend: http://localhost:3000
-- API: http://localhost:3001
-- API Docs (Swagger): http://localhost:3001/docs
-- Kibana: http://localhost:5601
-
-### Development Mode (Without Docker)
-
-1. **Start PostgreSQL** (locally or via Docker)
+**3. Initialize Elasticsearch Index**
 ```bash
-docker run -d \
-  --name nexus-postgres \
-  -e POSTGRES_DB=nexus_db \
-  -e POSTGRES_USER=nexus_user \
-  -e POSTGRES_PASSWORD=nexus_password \
-  -p 5432:5432 \
-  postgres:15-alpine
+# Create the search index with Thai language support
+docker exec -it nexus-api node dist/scripts/init-elasticsearch.js
 ```
 
-2. **Start Elasticsearch**
-```bash
-docker run -d \
-  --name nexus-elasticsearch \
-  -e "discovery.type=single-node" \
-  -e "ES_JAVA_OPTS=-Xms512m -Xmx512m" \
-  -e "xpack.security.enabled=false" \
-  -p 9200:9200 \
-  -p 9300:9300 \
-  docker.elastic.co/elasticsearch/elasticsearch:8.11.0
-```
+**4. Access the Application** 🎉
+| Service | URL | Description |
+|---------|-----|-------------|
+| 🌐 **Frontend** | http://localhost:3000 | Main application UI |
+| 🔌 **API** | http://localhost:3001 | REST API endpoints |
+| 📚 **Swagger Docs** | http://localhost:3001/docs | Interactive API documentation |
+| 📊 **Kibana** | http://localhost:5601 | Elasticsearch analytics |
 
-3. **Start Backend**
-```bash
-cd backend
-npm run dev
-```
+### First-Time Setup
 
-4. **Start Frontend**
-```bash
-cd frontend
-npm run dev
-```
-
-## 🔐 Role-Based Access Control (RBAC)
-
-### Roles & Permissions
-
-| Role | Permissions |
-|------|-------------|
-| **GUEST** | Search documents, view documents, view public annotations |
-| **RESEARCHER** | All GUEST permissions + create annotations, create document links, view own private annotations |
-| **ADMIN** | All RESEARCHER permissions + create/update/delete documents, manage users, manage all data |
-
-### Default User Setup
-
-After the database is initialized, you'll need to seed roles and an admin user:
+**Create Your Admin Account:**
+1. Open http://localhost:3000
+2. Click "Login" → "Register"
+3. Fill in your details
+4. Use SQL to upgrade to Admin role:
 
 ```sql
--- Insert roles
-INSERT INTO roles (name, description) VALUES
-  ('ROLE_GUEST', 'Can search and view documents'),
-  ('ROLE_RESEARCHER', 'Can annotate and link documents'),
-  ('ROLE_ADMIN', 'Full system access');
+docker exec -it nexus-postgres psql -U nexus_user -d nexus_db
+
+-- Add ADMIN role to your user
+INSERT INTO user_roles (user_id, role_id)
+SELECT u.id, r.id
+FROM users u, roles r
+WHERE u.email = 'your@email.com' 
+  AND r.name = 'ROLE_ADMIN';
 ```
 
-## 📚 API Documentation
+**Add Your First Document:**
+- Login as Admin
+- Go to http://localhost:3001/docs
+- Use POST /api/v1/documents endpoint
+- Or use curl (see TESTING_GUIDE.md)
 
-### Authentication Endpoints
+That's it! You're ready to search and analyze documents. 🚀
 
-#### POST `/api/v1/auth/register`
-Register a new user (default role: GUEST)
-```json
-{
-  "email": "user@example.com",
-  "password": "securePassword123",
-  "firstName": "John",
-  "lastName": "Doe"
-}
+## 📖 Usage Guide
+
+### Searching Documents
+
+**1. Login to the application**
+- Visit http://localhost:3000/login
+- Use your registered credentials
+
+**2. Navigate to Search**
+- Click "ค้นหา / Search" in the header
+- Or go to http://localhost:3000/search
+
+**3. Enter your search query**
+- **Thai keywords**: พระราชบัญญัติ, กฎหมาย, นโยบาย
+- **English keywords**: law, act, regulation, policy
+- The system will automatically show results in the language you searched
+
+**4. Use filters** (optional)
+- Document Type: Law, Policy, Regulation, Research
+- Click document type buttons to filter
+
+**5. View results**
+- See titles, summaries, and highlighted content
+- Click "ดูรายละเอียด / View Details →" for full document
+
+### Viewing Document Details
+
+**On the document detail page:**
+- Toggle between Thai/English using the language switcher
+- View full content, metadata, and tags
+- See publication date and jurisdiction
+- Access source URLs if available
+
+### Dashboard Analytics
+
+**Visit http://localhost:3000/dashboard to see:**
+- **Overview Tab**: Statistics and recent activity
+- **Knowledge Graph Tab**: Visual network of document relationships
+- **Trend Analysis Tab**: Charts showing document trends over time
+
+### Managing Your Session
+
+**Persistent Login:**
+- Your session persists across browser tabs
+- Close and reopen - you stay logged in
+- Only need to login again when token expires
+
+**Logout:**
+- Click "ออกจากระบบ / Logout" in the header
+
+## 🔐 User Roles & Permissions
+
+| Role | What You Can Do |
+|------|----------------|
+| **👤 GUEST** | • Search all documents<br>• View document details<br>• Access dashboard analytics |
+| **🔬 RESEARCHER** | • Everything GUEST can do<br>• Create document annotations<br>• Link related documents<br>• Create private notes |
+| **⚡ ADMIN** | • Everything RESEARCHER can do<br>• Create/edit/delete documents<br>• Manage users and roles<br>• Full system access |
+
+**Note:** New users automatically get GUEST role. Contact an admin to upgrade to RESEARCHER or ADMIN.
+
+## � API Reference
+
+**Complete API documentation available at:** http://localhost:3001/docs (Swagger UI)
+
+### Key Endpoints
+
+| Method | Endpoint | Description | Auth Required |
+|--------|----------|-------------|---------------|
+| **Authentication** |
+| POST | `/api/v1/auth/register` | Create new user account | ❌ No |
+| POST | `/api/v1/auth/login` | Login and get JWT token | ❌ No |
+| GET | `/api/v1/auth/me` | Get current user profile | ✅ Yes |
+| **Search** |
+| POST | `/api/v1/search` | Search documents with filters | ✅ Yes |
+| GET | `/api/v1/search/more-like/:id` | Find similar documents | ✅ Yes |
+| GET | `/api/v1/search/suggest` | Get search suggestions | ✅ Yes |
+| **Documents** |
+| GET | `/api/v1/documents` | List all documents | ✅ Yes |
+| GET | `/api/v1/documents/:id` | Get document details | ✅ Yes |
+| POST | `/api/v1/documents` | Create document | ✅ Admin only |
+| PUT | `/api/v1/documents/:id` | Update document | ✅ Admin only |
+| DELETE | `/api/v1/documents/:id` | Delete document | ✅ Admin only |
+| **Dashboard** |
+| GET | `/api/v1/dashboard` | Get analytics data | ✅ Yes |
+
+### Example: Search Documents
+
+**Request:**
+```bash
+curl -X POST http://localhost:3001/api/v1/search \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "query": "พัฒนาดิจิทัล",
+    "language": "th",
+    "page": 1,
+    "limit": 10
+  }'
 ```
 
-#### POST `/api/v1/auth/login`
-Login and receive JWT token
+**Response:**
 ```json
 {
-  "email": "user@example.com",
-  "password": "securePassword123"
-}
-```
-
-Response:
-```json
-{
-  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
-  "user": {
-    "id": "uuid",
-    "email": "user@example.com",
-    "firstName": "John",
-    "lastName": "Doe",
-    "roles": [...]
-  }
-}
-```
-
-#### GET `/api/v1/auth/me`
-Get current user info (requires authentication)
-
-### Search Endpoints
-
-#### POST `/api/v1/search`
-Full-text search with filters
-```json
-{
-  "query": "พ.ร.บ. คุ้มครองข้อมูลส่วนบุคคล",
-  "language": "th",
-  "filters": {
-    "documentType": ["LAW", "REGULATION"],
-    "dateFrom": "2020-01-01",
-    "dateTo": "2024-12-31"
-  },
+  "results": [
+    {
+      "id": "uuid",
+      "titleTh": "พระราชบัญญัติการพัฒนาดิจิทัล...",
+      "titleEn": "Digital Development Act...",
+      "documentType": "LAW",
+      "score": 0.863
+    }
+  ],
+  "total": 1,
   "page": 1,
-  "limit": 20
+  "limit": 10
 }
 ```
 
-#### GET `/api/v1/search/more-like/:documentId`
-Find similar documents using MLT (More Like This)
-
-#### POST `/api/v1/search/trends`
-Get trend analysis data
-```json
-{
-  "topic": "fintech",
-  "dateFrom": "2019-01-01",
-  "dateTo": "2024-12-31",
-  "interval": "quarter"
-}
-```
-
-### Document Endpoints
-
-#### GET `/api/v1/documents`
-List all documents (paginated)
-
-#### GET `/api/v1/documents/:id`
-Get document details
-
-#### POST `/api/v1/documents` (ADMIN only)
-Create a new document
-
-#### PUT `/api/v1/documents/:id` (ADMIN only)
-Update document
-
-#### DELETE `/api/v1/documents/:id` (ADMIN only)
-Delete document
-
-### Link & Graph Endpoints
-
-#### GET `/api/v1/documents/:id/links`
+For detailed API documentation with interactive testing, visit the **Swagger UI** at http://localhost:3001/docs
 Get all links for a document (incoming & outgoing)
 
 #### POST `/api/v1/documents/:id/links` (RESEARCHER+)
@@ -354,87 +347,137 @@ npm run build
 docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d
 ```
 
-### Environment Variables
-
-Key environment variables for production:
-
-```env
-NODE_ENV=production
-JWT_SECRET=<strong-random-secret>
-DB_PASSWORD=<secure-password>
-CORS_ORIGIN=https://your-domain.com
-```
-
 ## 🧪 Testing
 
+Comprehensive testing guide available at: **[TESTING_GUIDE.md](./TESTING_GUIDE.md)**
+
+### Quick Test Commands
+
 ```bash
-# Backend tests
-cd backend
-npm test
+# Check all services are running
+docker-compose ps
 
-# Frontend tests
+# Test API health
+curl http://localhost:3001/health
+
+# Test search
+curl -X POST http://localhost:3001/api/v1/search \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"query":"digital"}'
+
+# Reindex documents (if search not working)
+docker exec nexus-api node dist/scripts/reindex-documents.js
+```
+
+## � Project Structure
+
+```
+Nexus-Collaborative-Legal-Policy-Research/
+├── 📂 backend/                      # Node.js + TypeScript API
+│   ├── src/
+│   │   ├── config/                  # Database, DI, Elasticsearch setup
+│   │   ├── controllers/             # API request handlers
+│   │   ├── services/                # Business logic layer
+│   │   ├── entities/                # TypeORM database models
+│   │   ├── interfaces/              # TypeScript interfaces
+│   │   ├── middleware/              # Auth & RBAC middleware
+│   │   ├── routes/                  # API route definitions
+│   │   └── scripts/                 # Utility scripts (reindex, init)
+│   └── package.json
+│
+├── 📂 frontend/                     # Next.js 14 + React UI
+│   ├── src/
+│   │   ├── app/                     # Next.js App Router pages
+│   │   │   ├── page.tsx            # Home page
+│   │   │   ├── login/              # Login & register
+│   │   │   ├── search/             # Search interface
+│   │   │   ├── dashboard/          # Analytics dashboard
+│   │   │   └── documents/[id]/     # Document detail page
+│   │   ├── components/              # React components
+│   │   │   ├── KnowledgeGraph.tsx  # ReactFlow graph viz
+│   │   │   └── TrendAnalysis.tsx   # Recharts analytics
+│   │   ├── store/                   # Zustand state management
+│   │   └── styles/                  # Tailwind CSS
+│   └── package.json
+│
+├── 📂 elasticsearch/                # Custom Elasticsearch with Thai plugin
+├── 📄 docker-compose.yml           # All services orchestration
+├── 📄 TESTING_GUIDE.md            # Complete testing instructions
+├── 📄 DASHBOARD_GUIDE.md          # Dashboard features guide
+└── 📄 README.md                    # This file
+```
+
+## 📚 Documentation
+
+| Document | Description |
+|----------|-------------|
+| **[TESTING_GUIDE.md](./TESTING_GUIDE.md)** | Complete testing instructions, API examples, troubleshooting |
+| **[DASHBOARD_GUIDE.md](./DASHBOARD_GUIDE.md)** | Dashboard features and analytics usage |
+| **[Swagger UI](http://localhost:3001/docs)** | Interactive API documentation (when running) |
+
+## 🔧 Troubleshooting
+
+### Common Issues
+
+**Search returns no results**
+```bash
+# Reindex documents from PostgreSQL to Elasticsearch
+docker exec nexus-api node dist/scripts/reindex-documents.js
+```
+
+**Thai search not working**
+```bash
+# Check if Thai analyzer is applied to fields
+curl http://localhost:9200/legal_docs/_mapping | jq
+# Should show "analyzer": "thai_analyzer" for Thai fields
+```
+
+**Port already in use**
+```bash
+# Change ports in docker-compose.yml
+# Or stop conflicting services
+docker ps  # Find conflicting containers
+docker stop <container_name>
+```
+
+**Frontend build errors**
+```bash
+# Reinstall dependencies
 cd frontend
-npm test
+rm -rf node_modules package-lock.json
+npm install
 ```
 
-## 📖 Project Structure
-
-```
-nexus/
-├── backend/
-│   ├── src/
-│   │   ├── config/          # Configuration files
-│   │   │   ├── database.ts
-│   │   │   ├── inversify.config.ts
-│   │   │   ├── elasticsearch.config.ts
-│   │   │   └── types.ts
-│   │   ├── controllers/     # Request handlers
-│   │   ├── services/        # Business logic
-│   │   ├── entities/        # TypeORM entities
-│   │   ├── interfaces/      # Service interfaces
-│   │   ├── middleware/      # Auth & RBAC middleware
-│   │   ├── routes/          # API routes
-│   │   ├── index.ts         # Entry point
-│   │   └── server.ts        # Fastify server setup
-│   ├── Dockerfile
-│   └── package.json
-├── frontend/
-│   ├── src/
-│   │   ├── app/             # Next.js 14 app directory
-│   │   ├── components/      # React components
-│   │   ├── lib/             # API client & utilities
-│   │   ├── store/           # Zustand stores
-│   │   ├── types/           # TypeScript types
-│   │   └── styles/          # Global styles
-│   ├── Dockerfile
-│   └── package.json
-├── elasticsearch/
-│   └── Dockerfile           # ES with Thai plugin
-├── docker-compose.yml
-├── .env.example
-└── README.md
-```
+## 💡 Next Steps
+1. Add unit and integration tests
+2. Configure production deployment
 
 ## 🤝 Contributing
 
-Contributions are welcome! Please follow these steps:
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+Contributions welcome! Steps:
+1. Fork the repo
+2. Create feature branch: `git checkout -b feature/amazing-feature`
+3. Commit changes: `git commit -m 'Add amazing feature'`
+4. Push: `git push origin feature/amazing-feature`
+5. Open Pull Request
 
 ## 📄 License
 
-This project is licensed under the MIT License.
+MIT License - See [LICENSE](./LICENSE) for details
 
-## 👥 Authors
+## � Author
 
-- **Supakorn** - [@spksupakorn](https://github.com/spksupakorn)
+**Supakorn** - [@spksupakorn](https://github.com/spksupakorn)
 
 ## 🙏 Acknowledgments
 
-- Thai language processing powered by ICU tokenizer
-- Built with modern TypeScript best practices
-- Inspired by the need for better legal research tools in Thailand
+- 🇹🇭 Thai language support powered by **ICU Tokenizer**
+- 🏗️ Clean architecture with **InversifyJS** dependency injection
+- ⚡ High-performance search with **Elasticsearch 8.11**
+- 🎨 Modern UI with **Next.js 14** and **Tailwind CSS**
+- Built to improve legal research accessibility in Thailand
+
+---
+
+**Need Help?** Check [TESTING_GUIDE.md](./TESTING_GUIDE.md) or open an issue!
