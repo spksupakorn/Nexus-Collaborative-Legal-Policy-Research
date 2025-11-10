@@ -35,6 +35,7 @@ export class AuthService implements IAuthService {
 
     const token = this.generateToken(user);
 
+    // Construct clean user object without circular references
     return {
       token,
       user: {
@@ -42,7 +43,11 @@ export class AuthService implements IAuthService {
         email: user.email,
         firstName: user.firstName,
         lastName: user.lastName,
-        roles: user.roles,
+        roles: user.roles?.map(role => ({
+          id: role.id,
+          name: role.name,
+          description: role.description,
+        })) || [],
       },
     };
   }
@@ -76,6 +81,7 @@ export class AuthService implements IAuthService {
 
     const token = this.generateToken(user);
 
+    // Construct clean user object without circular references
     return {
       token,
       user: {
@@ -83,7 +89,11 @@ export class AuthService implements IAuthService {
         email: user.email,
         firstName: user.firstName,
         lastName: user.lastName,
-        roles: user.roles,
+        roles: user.roles?.map(role => ({
+          id: role.id,
+          name: role.name,
+          description: role.description,
+        })) || [],
       },
     };
   }

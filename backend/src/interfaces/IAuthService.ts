@@ -1,4 +1,5 @@
 import { User } from '../entities/User';
+import { RoleType } from '../entities/Role';
 
 export interface LoginDTO {
   email: string;
@@ -12,9 +13,23 @@ export interface RegisterDTO {
   lastName: string;
 }
 
+export interface RoleResponse {
+  id: string;
+  name: RoleType;
+  description?: string;
+}
+
+export interface UserResponse {
+  id: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  roles: RoleResponse[];
+}
+
 export interface AuthResponse {
   token: string;
-  user: Partial<User>;
+  user: UserResponse;
 }
 
 export interface IAuthService {

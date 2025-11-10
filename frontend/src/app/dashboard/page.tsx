@@ -67,7 +67,19 @@ export default function DashboardPage() {
       }
 
       const data = await response.json();
-      setStats(data);
+      
+      // Add safe defaults for missing fields
+      setStats({
+        totalDocuments: data.totalDocuments || 0,
+        totalUsers: data.totalUsers || 0,
+        totalSearches: data.totalSearches || 0,
+        recentDocuments: data.recentDocuments || [],
+        documentTrends: data.documentTrends || [],
+        searchTrends: data.searchTrends || [],
+        categoryDistribution: data.categoryDistribution || [],
+        popularTags: data.popularTags || [],
+        knowledgeGraph: data.knowledgeGraph || { nodes: [], links: [] }
+      });
     } catch (err: any) {
       setError(err.message || 'An error occurred');
       // Set mock data for demo purposes
@@ -242,22 +254,26 @@ export default function DashboardPage() {
                     เอกสารล่าสุด / Recent Documents
                   </h3>
                   <div className="space-y-3">
-                    {stats.recentDocuments.map((doc) => (
-                      <div key={doc.id} className="flex justify-between items-center p-3 hover:bg-gray-50 rounded-md">
-                        <div className="flex-1">
-                          <h4 className="font-medium text-gray-900">{doc.title}</h4>
-                          <p className="text-sm text-gray-500">
-                            {doc.type} • {new Date(doc.createdAt).toLocaleDateString('th-TH')}
-                          </p>
+                    {stats.recentDocuments?.length > 0 ? (
+                      stats.recentDocuments.map((doc) => (
+                        <div key={doc.id} className="flex justify-between items-center p-3 hover:bg-gray-50 rounded-md">
+                          <div className="flex-1">
+                            <h4 className="font-medium text-gray-900">{doc.title || 'Untitled'}</h4>
+                            <p className="text-sm text-gray-500">
+                              {doc.type || 'Unknown'} • {new Date(doc.createdAt).toLocaleDateString('th-TH')}
+                            </p>
+                          </div>
+                          <Link
+                            href={`/documents/${doc.id}`}
+                            className="text-blue-600 hover:text-blue-800 text-sm font-medium"
+                          >
+                            ดู / View →
+                          </Link>
                         </div>
-                        <Link
-                          href={`/documents/${doc.id}`}
-                          className="text-blue-600 hover:text-blue-800 text-sm font-medium"
-                        >
-                          ดู / View →
-                        </Link>
-                      </div>
-                    ))}
+                      ))
+                    ) : (
+                      <p className="text-gray-500 text-sm">ไม่มีเอกสาร / No documents available</p>
+                    )}
                   </div>
                 </div>
 
@@ -268,18 +284,22 @@ export default function DashboardPage() {
                       การกระจายตามประเภท / Category Distribution
                     </h3>
                     <div className="space-y-3">
-                      {stats.categoryDistribution.map((cat, idx) => (
-                        <div key={idx} className="flex items-center justify-between">
-                          <div className="flex items-center gap-2">
-                            <div
-                              className="w-3 h-3 rounded-full"
-                              style={{ background: cat.color }}
-                            />
-                            <span className="text-sm">{cat.name}</span>
+                      {stats.categoryDistribution?.length > 0 ? (
+                        stats.categoryDistribution.map((cat, idx) => (
+                          <div key={idx} className="flex items-center justify-between">
+                            <div className="flex items-center gap-2">
+                              <div
+                                className="w-3 h-3 rounded-full"
+                                style={{ background: cat.color }}
+                              />
+                              <span className="text-sm">{cat.name}</span>
+                            </div>
+                            <span className="font-semibold">{cat.value}</span>
                           </div>
-                          <span className="font-semibold">{cat.value}</span>
-                        </div>
-                      ))}
+                        ))
+                      ) : (
+                        <p className="text-gray-500 text-sm">ไม่มีข้อมูลประเภท / No category data</p>
+                      )}
                     </div>
                   </div>
 
@@ -288,14 +308,18 @@ export default function DashboardPage() {
                       แท็กยอดนิยม / Popular Tags
                     </h3>
                     <div className="flex flex-wrap gap-2">
-                      {stats.popularTags.slice(0, 10).map((tag, idx) => (
-                        <span
-                          key={idx}
-                          className="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm"
-                        >
-                          {tag.tag} ({tag.count})
-                        </span>
-                      ))}
+                      {stats.popularTags?.length > 0 ? (
+                        stats.popularTags.slice(0, 10).map((tag, idx) => (
+                          <span
+                            key={idx}
+                            className="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm"
+                          >
+                            {tag.tag} ({tag.count})
+                          </span>
+                        ))
+                      ) : (
+                        <p className="text-gray-500 text-sm">ไม่มีข้อมูลแท็ก / No tags available</p>
+                      )}
                     </div>
                   </div>
                 </div>

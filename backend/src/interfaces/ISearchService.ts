@@ -10,6 +10,7 @@ export interface SearchQuery {
   page?: number;
   limit?: number;
   language?: 'en' | 'th' | 'both';
+  userId?: string;
 }
 
 export interface SearchResult {

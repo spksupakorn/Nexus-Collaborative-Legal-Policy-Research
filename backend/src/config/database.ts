@@ -5,6 +5,7 @@ import { Permission } from '../entities/Permission';
 import { Document } from '../entities/Document';
 import { DocumentLink } from '../entities/DocumentLink';
 import { Annotation } from '../entities/Annotation';
+import { SearchLog } from '../entities/SearchLog';
 
 export const AppDataSource = new DataSource({
   type: 'postgres',
@@ -15,7 +16,7 @@ export const AppDataSource = new DataSource({
   database: process.env.DB_NAME || 'nexus_db',
   synchronize: process.env.NODE_ENV === 'development',
   logging: process.env.NODE_ENV === 'development',
-  entities: [User, Role, Permission, Document, DocumentLink, Annotation],
+  entities: [User, Role, Permission, Document, DocumentLink, Annotation, SearchLog],
   migrations: ['src/migrations/**/*.ts'],
   subscribers: [],
 });

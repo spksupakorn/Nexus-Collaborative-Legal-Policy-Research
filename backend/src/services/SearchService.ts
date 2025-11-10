@@ -4,6 +4,8 @@ import { TYPES } from '../config/types';
 import { ISearchService, SearchQuery, SearchResponse, SearchResult, TrendQuery, TrendData } from '../interfaces/ISearchService';
 import { IElasticsearchService } from '../interfaces/IElasticsearchService';
 import { ElasticsearchService } from './ElasticsearchService';
+import { AppDataSource } from '../config/database';
+import { SearchLog } from '../entities/SearchLog';
 
 @injectable()
 export class SearchService implements ISearchService {
@@ -137,9 +139,16 @@ export class SearchService implements ISearchService {
       })) || [],
     };
 
+    const totalResults = typeof response.hits.total === 'number' ? response.hits.total : response.hits.total?.value || 0;
+
+    // Log the search (async, don't await to avoid slowing down the response)
+    this.logSearch(searchText, language, filters, totalResults, query.userId).catch(err => {
+      console.error('Failed to log search:', err);
+    });
+
     return {
       results,
-      total: typeof response.hits.total === 'number' ? response.hits.total : response.hits.total?.value || 0,
+      total: totalResults,
       page,
       limit,
       facets,
@@ -255,5 +264,27 @@ export class SearchService implements ISearchService {
       return ['title_th^3', 'summary_th^2', 'content_th'];
     }
     return ['title_en^3', 'title_th^3', 'summary_en^2', 'summary_th^2', 'content_en', 'content_th'];
+  }
+
+  private async logSearch(
+    query: string,
+    language: string,
+    filters: any,
+    resultsCount: number,
+    userId?: string
+  ): Promise<void> {
+    try {
+      const searchLogRepo = AppDataSource.getRepository(SearchLog);
+      const searchLog = searchLogRepo.create({
+        query,
+        language,
+        filters,
+        resultsCount,
+        userId,
+      });
+      await searchLogRepo.save(searchLog);
+    } catch (error) {
+      console.error('Error logging search:', error);
+    }
   }
 }

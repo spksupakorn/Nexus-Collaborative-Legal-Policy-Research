@@ -37,7 +37,11 @@ export class SearchController {
     try {
       const query = searchSchema.parse(request.body);
       
-      const results = await this.searchService.search(query);
+      // Add userId from authenticated user
+      const userId = (request as any).user?.id;
+      const searchQuery = { ...query, userId };
+      
+      const results = await this.searchService.search(searchQuery);
       
       return reply.code(200).send(results);
     } catch (error: any) {

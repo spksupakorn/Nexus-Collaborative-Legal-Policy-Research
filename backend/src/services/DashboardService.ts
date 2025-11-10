@@ -5,6 +5,7 @@ import { IUserService } from '../interfaces/IUserService';
 import { AppDataSource } from '../config/database';
 import { Document } from '../entities/Document';
 import { DocumentLink } from '../entities/DocumentLink';
+import { SearchLog } from '../entities/SearchLog';
 
 export interface DashboardStats {
   totalDocuments: number;
@@ -35,10 +36,12 @@ export class DashboardService implements IDashboardService {
   async getDashboardStats(): Promise<DashboardStats> {
     const documentRepo = AppDataSource.getRepository(Document);
     const linkRepo = AppDataSource.getRepository(DocumentLink);
+    const searchLogRepo = AppDataSource.getRepository(SearchLog);
 
     // Get total counts
     const totalDocuments = await documentRepo.count();
     const totalUsers = await AppDataSource.query('SELECT COUNT(*) FROM users');
+    const totalSearches = await searchLogRepo.count();
     
     // Get recent documents
     const recentDocuments = await documentRepo.find({
@@ -49,6 +52,9 @@ export class DashboardService implements IDashboardService {
 
     // Get document trends (last 7 months)
     const documentTrends = await this.getDocumentTrends();
+
+    // Get search trends (last 7 months)
+    const searchTrends = await this.getSearchTrends();
 
     // Get category distribution
     const categoryDistribution = await this.getCategoryDistribution();
@@ -62,7 +68,7 @@ export class DashboardService implements IDashboardService {
     return {
       totalDocuments,
       totalUsers: parseInt(totalUsers[0]?.count || '0'),
-      totalSearches: 0, // This would come from a search log table
+      totalSearches,
       recentDocuments: recentDocuments.map(doc => ({
         id: doc.id,
         title: doc.titleEn || doc.titleTh,
@@ -70,7 +76,7 @@ export class DashboardService implements IDashboardService {
         createdAt: doc.createdAt,
       })),
       documentTrends,
-      searchTrends: [], // Mock data or from search logs
+      searchTrends,
       categoryDistribution,
       popularTags,
       knowledgeGraph,
@@ -85,6 +91,29 @@ export class DashboardService implements IDashboardService {
       .select('DATE_TRUNC(\'month\', document.createdAt)', 'month')
       .addSelect('COUNT(*)', 'count')
       .where('document.createdAt >= NOW() - INTERVAL \'7 months\'')
+      .groupBy('month')
+      .orderBy('month', 'ASC')
+      .getRawMany();
+
+    const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    
+    return trends.map(trend => {
+      const date = new Date(trend.month);
+      return {
+        date: monthNames[date.getMonth()],
+        count: parseInt(trend.count),
+      };
+    });
+  }
+
+  private async getSearchTrends(): Promise<Array<{ date: string; count: number }>> {
+    const searchLogRepo = AppDataSource.getRepository(SearchLog);
+    
+    const trends = await searchLogRepo
+      .createQueryBuilder('searchLog')
+      .select('DATE_TRUNC(\'month\', searchLog.createdAt)', 'month')
+      .addSelect('COUNT(*)', 'count')
+      .where('searchLog.createdAt >= NOW() - INTERVAL \'7 months\'')
       .groupBy('month')
       .orderBy('month', 'ASC')
       .getRawMany();
