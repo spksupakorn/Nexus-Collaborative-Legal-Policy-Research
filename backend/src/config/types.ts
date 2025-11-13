@@ -7,9 +7,11 @@ export const TYPES = {
   ILinkService: Symbol.for('ILinkService'),
   IAnnotationService: Symbol.for('IAnnotationService'),
   IElasticsearchService: Symbol.for('IElasticsearchService'),
+  IDashboardService: Symbol.for('IDashboardService'),
 
   // Controllers
   AuthController: Symbol.for('AuthController'),
   DocumentController: Symbol.for('DocumentController'),
   SearchController: Symbol.for('SearchController'),
+  DashboardController: Symbol.for('DashboardController'),
 };

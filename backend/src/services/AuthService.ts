@@ -9,8 +9,8 @@ import { TYPES } from '../config/types';
 
 @injectable()
 export class AuthService implements IAuthService {
-  private userRepository = AppDataSource.getRepository(User);
-  private roleRepository = AppDataSource.getRepository(Role);
+  private readonly userRepository = AppDataSource.getRepository(User);
+  private readonly roleRepository = AppDataSource.getRepository(Role);
 
   constructor(
     @inject(TYPES.IUserService) private userService: IUserService

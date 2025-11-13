@@ -6,8 +6,8 @@ import { ILinkService, CreateLinkDTO, LinkWithDocument } from '../interfaces/ILi
 
 @injectable()
 export class LinkService implements ILinkService {
-  private linkRepository = AppDataSource.getRepository(DocumentLink);
-  private documentRepository = AppDataSource.getRepository(Document);
+  private readonly linkRepository = AppDataSource.getRepository(DocumentLink);
+  private readonly documentRepository = AppDataSource.getRepository(Document);
 
   async create(linkData: CreateLinkDTO): Promise<DocumentLink> {
     const sourceDocument = await this.documentRepository.findOne({

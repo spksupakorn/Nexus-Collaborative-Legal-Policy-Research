@@ -74,7 +74,7 @@ export class AuthController {
     try {
       const user = (request as any).user;
       
-      return reply.code(200).send({ user });
+      return reply.code(200).send(user);
     } catch (error: any) {
       return reply.code(401).send({
         error: 'Unauthorized',

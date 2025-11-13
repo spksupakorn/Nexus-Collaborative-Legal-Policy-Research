@@ -1,12 +1,12 @@
 import { FastifyRequest, FastifyReply } from 'fastify';
 import { injectable, inject } from 'inversify';
 import { TYPES } from '../config/types';
-import { DashboardService, IDashboardService } from '../services/DashboardService';
+import { IDashboardService } from '../interfaces/IDashboardService';
 
 @injectable()
 export class DashboardController {
   constructor(
-    @inject('IDashboardService') private dashboardService: IDashboardService
+    @inject(TYPES.IDashboardService) private dashboardService: IDashboardService
   ) {}
 
   async getDashboard(

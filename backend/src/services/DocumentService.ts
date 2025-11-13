@@ -7,7 +7,7 @@ import { TYPES } from '../config/types';
 
 @injectable()
 export class DocumentService implements IDocumentService {
-  private documentRepository = AppDataSource.getRepository(Document);
+  private readonly documentRepository = AppDataSource.getRepository(Document);
 
   constructor(
     @inject(TYPES.IElasticsearchService) private esService: IElasticsearchService

@@ -6,8 +6,8 @@ import { IUserService } from '../interfaces/IUserService';
 
 @injectable()
 export class UserService implements IUserService {
-  private userRepository = AppDataSource.getRepository(User);
-  private roleRepository = AppDataSource.getRepository(Role);
+  private readonly userRepository = AppDataSource.getRepository(User);
+  private readonly roleRepository = AppDataSource.getRepository(Role);
 
   async findById(id: string): Promise<User | null> {
     return this.userRepository.findOne({

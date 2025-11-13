@@ -2,7 +2,6 @@ import { injectable, inject } from 'inversify';
 import { Client } from '@elastic/elasticsearch';
 import { TYPES } from '../config/types';
 import { ISearchService, SearchQuery, SearchResponse, SearchResult, TrendQuery, TrendData } from '../interfaces/ISearchService';
-import { IElasticsearchService } from '../interfaces/IElasticsearchService';
 import { ElasticsearchService } from './ElasticsearchService';
 import { AppDataSource } from '../config/database';
 import { SearchLog } from '../entities/SearchLog';

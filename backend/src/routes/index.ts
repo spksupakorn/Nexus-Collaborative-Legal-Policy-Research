@@ -24,7 +24,7 @@ export async function registerRoutes(server: FastifyInstance): Promise<void> {
   const authController = container.get<AuthController>(TYPES.AuthController);
   const searchController = container.get<SearchController>(TYPES.SearchController);
   const documentController = container.get<DocumentController>(TYPES.DocumentController);
-  const dashboardController = container.get<DashboardController>('DashboardController');
+  const dashboardController = container.get<DashboardController>(TYPES.DashboardController);
 
   // API v1 prefix
   server.register(async (api) => {
@@ -42,32 +42,7 @@ export async function registerRoutes(server: FastifyInstance): Promise<void> {
           }
         },
         response: {
-          200: {
-            type: 'object',
-            properties: {
-              token: { type: 'string' },
-              user: {
-                type: 'object',
-                properties: {
-                  id: { type: 'string' },
-                  email: { type: 'string' },
-                  firstName: { type: 'string' },
-                  lastName: { type: 'string' },
-                  roles: {
-                    type: 'array',
-                    items: {
-                      type: 'object',
-                      properties: {
-                        id: { type: 'string' },
-                        name: { type: 'string' },
-                        description: { type: 'string' }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
+          200: authResponseSchema
         }
       }
     }, authController.login.bind(authController));
@@ -87,32 +62,7 @@ export async function registerRoutes(server: FastifyInstance): Promise<void> {
           }
         },
         response: {
-          200: {
-            type: 'object',
-            properties: {
-              token: { type: 'string' },
-              user: {
-                type: 'object',
-                properties: {
-                  id: { type: 'string' },
-                  email: { type: 'string' },
-                  firstName: { type: 'string' },
-                  lastName: { type: 'string' },
-                  roles: {
-                    type: 'array',
-                    items: {
-                      type: 'object',
-                      properties: {
-                        id: { type: 'string' },
-                        name: { type: 'string' },
-                        description: { type: 'string' }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
+          201: authResponseSchema
         }
       }
     }, authController.register.bind(authController));

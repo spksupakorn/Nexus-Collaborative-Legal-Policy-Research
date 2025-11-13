@@ -16,7 +16,8 @@ import { IAnnotationService } from '../interfaces/IAnnotationService';
 import { AnnotationService } from '../services/AnnotationService';
 import { IElasticsearchService } from '../interfaces/IElasticsearchService';
 import { ElasticsearchService } from '../services/ElasticsearchService';
-import { IDashboardService, DashboardService } from '../services/DashboardService';
+import { IDashboardService } from '../interfaces/IDashboardService';
+import { DashboardService } from '../services/DashboardService';
 
 // Controllers
 import { AuthController } from '../controllers/AuthController';
@@ -28,18 +29,18 @@ const container = new Container();
 
 // Bind services
 container.bind<IAuthService>(TYPES.IAuthService).to(AuthService);
-container.bind<IUserService>(TYPES.IUserService).to(UserService);
-container.bind<IDocumentService>(TYPES.IDocumentService).to(DocumentService);
-container.bind<ISearchService>(TYPES.ISearchService).to(SearchService);
-container.bind<ILinkService>(TYPES.ILinkService).to(LinkService);
-container.bind<IAnnotationService>(TYPES.IAnnotationService).to(AnnotationService);
-container.bind<IElasticsearchService>(TYPES.IElasticsearchService).to(ElasticsearchService);
-container.bind<IDashboardService>('IDashboardService').to(DashboardService);
+container.bind<IUserService>(TYPES.IUserService).to(UserService).inSingletonScope();
+container.bind<IDocumentService>(TYPES.IDocumentService).to(DocumentService).inSingletonScope();
+container.bind<ISearchService>(TYPES.ISearchService).to(SearchService).inSingletonScope();
+container.bind<ILinkService>(TYPES.ILinkService).to(LinkService).inSingletonScope();
+container.bind<IAnnotationService>(TYPES.IAnnotationService).to(AnnotationService).inSingletonScope();
+container.bind<IElasticsearchService>(TYPES.IElasticsearchService).to(ElasticsearchService).inSingletonScope();
+container.bind<IDashboardService>(TYPES.IDashboardService).to(DashboardService).inSingletonScope();
 
 // Bind controllers
 container.bind<AuthController>(TYPES.AuthController).to(AuthController);
 container.bind<DocumentController>(TYPES.DocumentController).to(DocumentController);
 container.bind<SearchController>(TYPES.SearchController).to(SearchController);
-container.bind<DashboardController>('DashboardController').to(DashboardController);
+container.bind<DashboardController>(TYPES.DashboardController).to(DashboardController);
 
 export { container };

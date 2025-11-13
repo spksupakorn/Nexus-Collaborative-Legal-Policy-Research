@@ -7,9 +7,9 @@ import { IAnnotationService, CreateAnnotationDTO, UpdateAnnotationDTO } from '..
 
 @injectable()
 export class AnnotationService implements IAnnotationService {
-  private annotationRepository = AppDataSource.getRepository(Annotation);
-  private userRepository = AppDataSource.getRepository(User);
-  private documentRepository = AppDataSource.getRepository(Document);
+  private readonly annotationRepository = AppDataSource.getRepository(Annotation);
+  private readonly userRepository = AppDataSource.getRepository(User);
+  private readonly documentRepository = AppDataSource.getRepository(Document);
 
   async create(annotationData: CreateAnnotationDTO): Promise<Annotation> {
     const user = await this.userRepository.findOne({
